@@ -104,35 +104,47 @@ FSRS-RATING is the user's response quality (:again/:hard/:good/:easy)."
 (cl-deftype fsrs-parameters nil
  "Array type containing 21 single-floats for FSRS parameters." 'vector)
 
-(defconst fsrs-default-parameters
- (cl-coerce
-  '(0.212 1.2931 2.3065 8.2956 6.4133 0.8334 3.0194 0.001 1.8722 0.1666 0.796
-    1.4835 0.0614 0.2629 1.6483 0.6014 1.8729 0.5425 0.0912 0.0658 0.1542)
-  'vector))
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-default-parameters
+  (cl-coerce
+   '(0.212 1.2931 2.3065 8.2956 6.4133 0.8334 3.0194 0.001 1.8722 0.1666 0.796
+     1.4835 0.0614 0.2629 1.6483 0.6014 1.8729 0.5425 0.0912 0.0658 0.1542)
+   'vector)
+  "Default weight values for FSRS parameters."))
 
-(defconst fsrs-lower-bounds-parameters
- (cl-coerce
-  '(0.001 0.001 0.001 0.001 1.0 0.001 0.001 0.001 0.0 0.0 0.001 0.001 0.001
-    0.001 0.0 0.0 1.0 0.0 0.0 0.0 0.1)
-  'vector))
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-lower-bounds-parameters
+  (cl-coerce
+   '(0.001 0.001 0.001 0.001 1.0 0.001 0.001 0.001 0.0 0.0 0.001 0.001 0.001
+     0.001 0.0 0.0 1.0 0.0 0.0 0.0 0.1)
+   'vector)
+  "Lower bounds for FSRS parameter values."))
 
-(defconst fsrs-upper-bounds-parameters
- (cl-coerce
-  '(100.0 100.0 100.0 100.0 10.0 4.0 4.0 0.75 4.5 0.8 3.5 5.0 0.25 0.9 4.0 1.0
-    6.0 2.0 2.0 0.8 0.8)
-  'vector))
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-upper-bounds-parameters
+  (cl-coerce
+   '(100.0 100.0 100.0 100.0 10.0 4.0 4.0 0.75 4.5 0.8 3.5 5.0 0.25 0.9 4.0 1.0
+     6.0 2.0 2.0 0.8 0.8)
+   'vector)
+  "Upper bounds for FSRS parameter values."))
 
-(defconst fsrs-minimum-difficulty 1.0 "Minimum allowed difficulty value (1.0).")
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-minimum-difficulty 1.0
+  "Minimum allowed difficulty value (1.0)."))
 
-(defconst fsrs-maximum-difficulty 10.0
- "Maximum allowed difficulty value (10.0).")
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-maximum-difficulty 10.0
+  "Maximum allowed difficulty value (10.0)."))
 
-(defconst fsrs-minimum-stability 0.001
- "Minimum allowed stability value (0.001).")
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-minimum-stability 0.001
+  "Minimum allowed stability value (0.001)."))
 
-(defconst fsrs-fuzz-ranges
- '(((2.5 :day) (7.0 :day) 0.15) ((7.0 :day) (20.0 :day) 0.1)
-   ((20.0 :day) nil 0.05)))
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-fuzz-ranges
+  '(((2.5 :day) (7.0 :day) 0.15) ((7.0 :day) (20.0 :day) 0.1)
+    ((20.0 :day) nil 0.05))
+  "Fuzz factor ranges for interval randomization."))
 
 (cl-deftype fsrs-difficulty nil
  "Single-float type representing item difficulty (1.0-10.0)."
@@ -175,8 +187,10 @@ REVIEW-DURATION is the time spent reviewing in seconds or NIL."
  (review-datetime (fsrs-now) :type fsrs-timestamp)
  (review-duration nil :type (or fixnum null)))
 
-(defconst fsrs-time-units
- '((:sec . 1) (:minute . 60) (:hour . 3600) (:day . 86400)))
+(cl-eval-when (:compile-toplevel :load-toplevel :execute)
+ (defconst fsrs-time-units
+  '((:sec . 1) (:minute . 60) (:hour . 3600) (:day . 86400))
+  "Time unit conversion factors in seconds."))
 
 (cl-deftype fsrs-timespan nil
  "Cons type representing a duration with multiple time units." 'cons)

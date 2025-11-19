@@ -145,10 +145,13 @@ seconds to TIME."
     (call-next-method car cdr)))
 
 (defmethod translate-form ((car (eql 'defconstant)) cdr)
-  (translate-form 'defconst (translate-definition cdr '*mappings*)))
+  (let ((form `(eval-when (:compile-toplevel :load-toplevel :execute)
+                 (defconst . ,(translate-definition cdr '*mappings*)))))
+    (translate-form (car form) (cdr form))))
 
 (defmethod translate-form ((car (eql 'define-constant)) cdr)
-  (translate-form 'defconst (subseq (translate-definition cdr '*mappings*) 0 2)))
+  (destructuring-bind (name initial-value &key documentation &allow-other-keys) cdr
+    (translate-form 'defconstant (list* name initial-value (ensure-list documentation)))))
 
 (defmethod translate-form ((car (eql 'defstruct)) cdr)
   (destructuring-bind (name-and-options &rest slots) cdr
